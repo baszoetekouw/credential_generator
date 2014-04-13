@@ -16,7 +16,7 @@ if ($remoteip!=='127.0.0.1' && $remoteip!=='::1'
 }
 
 
-
+// generate a new credential
 $cred = credential_generate();
 if ($cred['error'])
 {
@@ -24,6 +24,7 @@ if ($cred['error'])
 	exit();
 }
 
+// return result
 header("Content-Type: application/json; charset=us-ascii");
 print json_encode($cred, JSON_UNESCAPED_SLASHES |  JSON_PRETTY_PRINT);
 print "\n";
