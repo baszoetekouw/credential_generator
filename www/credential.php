@@ -17,7 +17,7 @@ if ($remoteip!=='127.0.0.1' && $remoteip!=='::1'
 
 
 // generate a new credential
-$cred = credential_generate();
+$cred = credential_generate($remoteip);
 if ($cred['error'])
 {
 	http_response_code(500);

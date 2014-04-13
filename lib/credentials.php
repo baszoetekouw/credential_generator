@@ -68,12 +68,12 @@ function _db_open()
 	return $db;
 }
 
-function _db_store($db,$passphrase,$refcode)
+function _db_store($db,$passphrase,$refcode,$ip)
 {
-	$sql = 'INSERT INTO credentials (passphrase,refcode) VALUES (?,?)';
+	$sql = 'INSERT INTO credentials (passphrase,refcode,ip) VALUES (?,?,?)';
 
 	$st = $db->stmt_init();
-	if ( !$st->prepare($sql) || !$st->bind_param('ss',$passphrase,$refcode) )
+	if ( !$st->prepare($sql) || !$st->bind_param('sss',$passphrase,$refcode,$ip) )
 	{
 		$error = "Failed to prepare INSERT query: " . $st->error;
 		error_log($error);
@@ -95,7 +95,7 @@ function _db_close($db)
 }
 
 
-function credential_generate()
+function credential_generate($src_ip)
 {
 	try 
 	{
@@ -112,7 +112,7 @@ function credential_generate()
 
 			// store in the db 
 			// result will be false if insert failed (i.e., refcode wasn't unique)
-			$result = _db_store($db,$pass,$ref);
+			$result = _db_store($db,$pass,$ref,$src_ip);
 
 			if ($i++>=10)
 			{
