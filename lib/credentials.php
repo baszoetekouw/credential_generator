@@ -3,6 +3,13 @@
 // all credential handling is done in this file
 
 
+// report an error
+function _error($error,$throw)
+{
+	error_log($error);
+	if ($thow) throw new Exception($error);
+}
+
 // generates a new passphrase ans saves it in the database
 function _get_passphrase()
 {
@@ -75,16 +82,13 @@ function _db_store($db,$passphrase,$refcode,$ip)
 	$st = $db->stmt_init();
 	if ( !$st->prepare($sql) || !$st->bind_param('sss',$passphrase,$refcode,$ip) )
 	{
-		$error = "Failed to prepare INSERT query: " . $st->error;
-		error_log($error);
-		throw new Exception($error);
+		_error("Failed to prepare INSERT query: " . $st->error);
 	}
 
 	$result = $st->execute();
 	if (!$result)
 	{
-		$error = "Failed to execute INSERT query: " . $st->error;
-		error_log($error);
+		_error("Failed to execute INSERT query: " . $st->error, false)
 	}
 	return $result;
 }
