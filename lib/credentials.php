@@ -86,9 +86,36 @@ function _db_store($db,$passphrase,$refcode,$ip)
 	$result = $st->execute();
 	if (!$result)
 	{
-		_error("Failed to execute INSERT query: " . $st->error, false)
+		_error("Failed to execute INSERT query: " . $st->error, false);
 	}
 	return $result;
+}
+
+function _db_fetch($db,$refcode)
+{
+	$sql = 'SELECT refcode,passphrase,timestamp,ip FROM credentials WHERE refcode=?';
+
+	$st = $db->prepare($sql);
+	if ( $st===false )
+		_error("Failed to prepare SELECT query: " . $db->error);
+
+	if ( $st->bind_param('s',$refcode)===false )
+		_error("Failed to bind SELECT query: " . $db->error);
+
+	$result = $st->execute();
+	if (!$result)
+		_error("Failed to execute SELECT query: " . $st->error);
+
+	$res = $st->bind_result($refcode,$pass,$date,$ip);
+	if ($res===false || $st->fetch()===false)
+		_error("Failed to execute SELECT query: " . $st->error);
+
+	return array(
+		'passphrase' => $pass,
+		'refcode'    => $refcode,
+		'date'       => $date,
+		'ip'         => $ip
+	);
 }
 
 function _db_close($db)
@@ -136,10 +163,23 @@ function credential_generate($src_ip)
 	return $data;
 }
 
-// lists all credentials from the database
-function credential_get_list()
+// fetched a credential with specified refcode
+function credential_fetch($refcode)
 {
-}
+	try
+	{
+		$db = _db_open();
+		$data = _db_fetch($db,$refcode);
 
+		$data['error']=false;
+	}
+	catch (Exception $e)
+	{
+		$data = array( 'error' => true );
+	}
+
+	_db_close($db);
+	return $data;
+}
 
 ?>
