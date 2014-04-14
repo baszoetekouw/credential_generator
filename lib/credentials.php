@@ -38,21 +38,23 @@ function _get_passphrase()
 	return $cred;
 }
 
-// calculate a reference code for a iven pass phrase
-function _get_refcode($passphrase)
+// calculate a reference code
+function _get_refcode()
 {
-	// reference code is a short code that is uniquely associated with the 
-	// passwphrase
-	// uniqueness is enforces on the db level (see credentials_new() below)
-	// refcode is generated as follows:
-	// - calc CRC32 of passphrase
-	// - set highest bit to zero
-	// - remaining 31 bits are encoded as 6-char base-36 number
-	// - pas refcode with 0s
-	$crc32_raw = crc32($passphrase) & 0x7fffffff;
-	$crc32_str = sprintf("%u",$crc32_raw);
-	$refcode = base_convert($crc32_str,10,36);
-	$refcode = str_pad($refcode,6,'0',STR_PAD_LEFT);
+	// number of chars in reference
+	$REFLEN=6;
+
+	$refcode='';
+	for ($i=0; $i<$REFLEN; $i++)
+	{
+		$r = mt_rand(0,35);
+
+		# use 0-9 and a-z
+		if ($r<10) $c=$r;
+		else       $c=chr(ord('a')+$r-10);
+
+		$refcode="$refcode$c";
+	}
 
 	return $refcode;
 }
