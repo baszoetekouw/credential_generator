@@ -4,10 +4,10 @@
 
 
 // report an error
-function _error($error,$throw)
+function _error($error,$throw=true)
 {
 	error_log($error);
-	if ($thow) throw new Exception($error);
+	if ($throw) throw new Exception($error);
 }
 
 // generates a new passphrase ans saves it in the database
@@ -67,9 +67,7 @@ function _db_open()
 	$db = new mysqli('localhost',$MYSQL_USER,$MYSQL_PASS,$MYSQL_DB);
 	if (mysqli_connect_error())
 	{
-		$error = "Failed to connect to MySQL: " . mysqli_connect_error();
-		error_log($error);
-		throw new Exception($error);
+		_error("Failed to connect to MySQL: " . mysqli_connect_error());
 	}
 	
 	return $db;
