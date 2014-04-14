@@ -79,8 +79,8 @@ function _db_store($db,$passphrase,$refcode,$ip)
 {
 	$sql = 'INSERT INTO credentials (passphrase,refcode,ip) VALUES (?,?,?)';
 
-	$st = $db->stmt_init();
-	if ( !$st->prepare($sql) || !$st->bind_param('sss',$passphrase,$refcode,$ip) )
+	$st = $db->prepare($sql);
+	if ( $st===false || $st->bind_param('sss',$passphrase,$refcode,$ip)==false )
 	{
 		_error("Failed to prepare INSERT query: " . $st->error);
 	}
