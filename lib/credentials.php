@@ -107,8 +107,14 @@ function _db_fetch($db,$refcode)
 		_error("Failed to execute SELECT query: " . $st->error);
 
 	$res = $st->bind_result($refcode,$pass,$date,$ip);
-	if ($res===false || $st->fetch()===false)
+	if ($res===false)
 		_error("Failed to execute SELECT query: " . $st->error);
+
+	$res = $st->fetch();
+	if ($res===false)
+		_error("Failed to fetch SELECT query: " . $st->error);
+	if ($res===null) 
+		return array();
 
 	return array(
 		'passphrase' => $pass,
@@ -171,11 +177,11 @@ function credential_fetch($refcode)
 		$db = _db_open();
 		$data = _db_fetch($db,$refcode);
 
-		$data['error']=false;
+		$data['error'] = isset($data['passphrase']) ? 0 : 1;
 	}
 	catch (Exception $e)
 	{
-		$data = array( 'error' => true );
+		$data = array( 'error' => 1 );
 	}
 
 	_db_close($db);
