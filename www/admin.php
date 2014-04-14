@@ -12,27 +12,34 @@ function cleanse_refcode($refcode)
 	return $refcode;
 }
 
-$refcode = cleanse_refcode($_POST['refcode']);
-$data = credential_fetch($refcode);
+// default values
+$refcode = "&ndash;";
+$pass    = "&ndash;";
+$ldate   = "&ndash;";
+$ip      = "&ndash;";
 
-if (!$data['error'])
+if ( isset($_POST['refcode'] ) )
 {
-	$pass = $data['passphrase'];
-	$date = $data['date'];
-	$ip   = $data['ip'];
+	$refcode = cleanse_refcode($_POST['refcode']);
+	$data = credential_fetch($refcode);
 
-	# fix date (is stored as UTC in the db)
-	$ldate = new DateTime( $date, new DateTimeZone("UTC") );
-	$ldate->setTimezone( new DateTimeZone("Europe/Amsterdam") );
-	$ldate = $ldate->format('Y-m-d H:i:s T');
-}
-else
-{
-	$pass = "Not found";
-	$date = "&ndash;";
-	$ip   = "&ndash;";
-}
+	if (!$data['error'])
+	{
+		$pass = $data['passphrase'];
+		$date = $data['date'];
+		$ip   = $data['ip'];
 
+		# fix date (is stored as UTC in the db)
+		$ldate = new DateTime( $date, new DateTimeZone("UTC") );
+		$ldate->setTimezone( new DateTimeZone("Europe/Amsterdam") );
+		$ldate = $ldate->format('Y-m-d H:i:s T');
+	}
+	else
+	{
+		$pass  = "Not found";
+	}
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
