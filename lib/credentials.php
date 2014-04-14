@@ -23,7 +23,7 @@ function _get_passphrase()
 	// generate random bytes
 	$num_bytes = intval($num_bits / 8)+1;
 	$randomness = openssl_random_pseudo_bytes($num_bytes, $cstrong);
-	assert ($cstrong===true); // shouldn't occur, according to PHP docs
+	assert ($cstrong===true); // should always be true, according to PHP docs
 
 	// nice base64-encoding
 	$cred = base64_encode($randomness);
