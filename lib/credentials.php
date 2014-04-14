@@ -77,7 +77,7 @@ function _db_open()
 
 function _db_store($db,$passphrase,$refcode,$ip)
 {
-	$sql = 'INSERT INTO credentials (passphrase,refcode,ip) VALUES (?,?,?)';
+	$sql = 'INSERT INTO credentials (passphrase,refcode,generation_ip) VALUES (?,?,?)';
 
 	$st = $db->prepare($sql);
 	if ( $st===false || $st->bind_param('sss',$passphrase,$refcode,$ip)==false )
@@ -95,7 +95,8 @@ function _db_store($db,$passphrase,$refcode,$ip)
 
 function _db_fetch($db,$refcode)
 {
-	$sql = 'SELECT refcode,passphrase,timestamp,ip FROM credentials WHERE refcode=?';
+	$sql = 'SELECT refcode,passphrase,generation_date,generation_ip '
+	      .'FROM credentials WHERE refcode=?';
 
 	$st = $db->prepare($sql);
 	if ( $st===false )
