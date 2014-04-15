@@ -226,6 +226,7 @@ function credential_fetch($refcode)
 {
 	// todo: get this from SimpleSAMLphp
 	$userid='unknown';
+	$db=null;
 
 	try
 	{
@@ -250,6 +251,7 @@ function credential_expire()
 	global $CRED_EXP_GENERATE;
 	global $CRED_EXP_VIEW;
 
+	$db=null;
 	try
 	{
 		$db  = _db_open();
