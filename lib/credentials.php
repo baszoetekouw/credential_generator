@@ -13,29 +13,29 @@ function _error($error,$throw=true)
 // generates a new passphrase ans saves it in the database
 function _get_passphrase()
 {
-	// number of chars in the eventual password
-	// (entropy will me 3/4 of this, because if the base64 encoding (6 bits/byte)
+	// number of chars in the eventual passphrase
 	$CRED_CHARS=24;
+	// add a separator every N chars (set to 0 for no separator)
+	$CRED_SEPLEN=0;
 
-	// number of random bits
-	$num_bits = $CRED_CHARS * 6;
+	// characters to use in the passphrase
+	$PW_CHARS = '0123456789~!@#$%^&*()_+={}[]|:;<>,./?'
+		.'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-	// generate random bytes
-	$num_bytes = intval($num_bits / 8)+1;
-	$randomness = openssl_random_pseudo_bytes($num_bytes, $cstrong);
-	assert ($cstrong===true); // should always be true, according to PHP docs
+	$passphrase='';
+	$numchars=strlen($PW_CHARS);
+	for ($i=0; $i<$CRED_CHARS; $i++)
+	{
+		# add a separator every $CRED_SEPLEN chars
+		if ($i!=0 && $CRED_SEPLEN>0 && $i%$CRED_SEPLEN==0) $passphrase.='-';
 
-	// nice base64-encoding
-	$cred = base64_encode($randomness);
+		# add random char
+		$r = mt_rand(0,$numchars-1);
+		$c = substr($PW_CHARS,$r,1);
+		$passphrase.=$c;
+	}
 
-	// clip to requested number of bytes
-	$cred = substr($cred,0,$CRED_CHARS);
-
-	// insert breaks every 4 chars to increase readability
-	// I 💖 regexps
-	$cred = preg_replace('/....(?!$)/','$0-',$cred);
-
-	return $cred;
+	return $passphrase;
 }
 
 // calculate a reference code
