@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS `credentials`;
 CREATE TABLE `credentials` (
   `id`              int unsigned NOT NULL AUTO_INCREMENT,
-  `passphrase`      varchar(255) NOT NULL,
+  `passphrase`      varchar(255) NULL,
   `refcode`         char(6)      NOT NULL,
   `generation_date` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `generation_ip`   varchar(45)  NOT NULL,
-  `viewed_by`       varchar(255) DEFAULT NULL,
+  `viewed_by`       varchar(255) NULL DEFAULT NULL,
   `view_date`       timestamp    NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),

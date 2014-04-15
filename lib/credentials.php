@@ -147,6 +147,33 @@ function _db_markread($db,$refcode,$user)
 	return;
 }
 
+function _db_expire($db,$timeout_unviewed,$timeout_viewed)
+{
+	// set passphrase to NULL of it's expired
+	// note that there are two expiration intervals: 
+	// credentials expire a number of days after thei were generated, or a 
+	// number of minutes after theiy are viewed by the admin, whichever comes 
+	// first.
+	$sql = "
+		UPDATE credentials SET passphrase=NULL 
+		WHERE ( viewed_by IS NULL AND generation_date<DATE_SUB(NOW(),INTERVAL ? DAY) )
+		   OR ( viewed_by IS NOT NULL AND view_date<DATE_SUB(NOW(),INTERVAL ? MINUTE) )
+	";
+
+	$st = $db->prepare($sql);
+	if ( $st===false ) 
+		_error("Failed to prepare UPDATE query: " . $db->error);
+
+	if ( $st->bind_param('ss',$timeout_unviewed,$timeout_viewed)==false )
+		_error("Failed to prepare UPDATE query: " . $st->error);
+
+	$result = $st->execute();
+	if (!$result)
+		_error("Failed to execute UPDATE query: " . $st->error);
+
+	return $st->affected_rows;
+}
+
 function _db_close($db)
 {
 	if ($db) $db->close();
@@ -215,6 +242,27 @@ function credential_fetch($refcode)
 
 	_db_close($db);
 	return $data;
+}
+
+// expire credentials
+function credential_expire()
+{
+	global $CRED_EXP_GENERATE;
+	global $CRED_EXP_VIEW;
+
+	try
+	{
+		$db  = _db_open();
+		$num = _db_expire($db,$CRED_EXP_GENERATE,$CRED_EXP_VIEW);
+	}
+	catch (Exception $e)
+	{
+		$num = -1;
+	}
+
+	_db_close($db);
+
+	return $num;
 }
 
 ?>

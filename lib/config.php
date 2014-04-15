@@ -21,4 +21,12 @@ $MYSQL_USER = 'cred';
 $MYSQL_PASS = 'Ohdechae4d';
 $MYSQL_DB   = 'credentials';
 
+// expirations
+// credentials expire in two different ways:
+//  - a number of DAYS after they are generated
+//  - a number of MINUTES after they are viewed by an admin
+// (whichever comes first)
+$CRED_EXP_GENERATE = 14; // in DAYS!
+$CRED_EXP_VIEW     = 15; // in MINUTES!
+
 ?>
