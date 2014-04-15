@@ -124,6 +124,29 @@ function _db_fetch($db,$refcode)
 	);
 }
 
+function _db_markread($db,$refcode,$user)
+{
+	// set view_date and viewed_by in the db, if it wasn't set before
+	$sql = "
+		UPDATE credentials SET view_date=NOW(),viewed_by=? 
+		WHERE refcode=? AND view_date IS NULL
+		LIMIT 1
+	";
+
+	$st = $db->prepare($sql);
+	if ( $st===false ) 
+		_error("Failed to prepare UPDATE query: " . $db->error);
+
+	if ( $st->bind_param('ss',$user,$refcode)==false )
+		_error("Failed to prepare UPDATE query: " . $st->error);
+
+	$result = $st->execute();
+	if (!$result)
+		_error("Failed to execute UPDATE query: " . $st->error);
+
+	return;
+}
+
 function _db_close($db)
 {
 	if ($db) $db->close();
@@ -174,10 +197,14 @@ function credential_generate($src_ip)
 // fetched a credential with specified refcode
 function credential_fetch($refcode)
 {
+	// todo: get this from SimpleSAMLphp
+	$userid='unknown';
+
 	try
 	{
 		$db = _db_open();
 		$data = _db_fetch($db,$refcode);
+		_db_markread($db,$refcode,$userid);
 
 		$data['error'] = isset($data['passphrase']) ? 0 : 1;
 	}
