@@ -1,7 +1,9 @@
 <?php
 
-// all credential handling is done in this file
+require 'config.php';
 
+
+// all credential handling is done in this file
 
 // report an error
 function _error($error,$throw=true)
@@ -13,25 +15,20 @@ function _error($error,$throw=true)
 // generates a new passphrase ans saves it in the database
 function _get_passphrase()
 {
-	// number of chars in the eventual passphrase
-	$CRED_CHARS=24;
-	// add a separator every N chars (set to 0 for no separator)
-	$CRED_SEPLEN=0;
-
-	// characters to use in the passphrase
-	$PW_CHARS = '0123456789~!@#$%^&*()_+={}[]|:;<>,./?'
-		.'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	global $CRED_LENGTH;
+	global $CRED_SEPLEN;
+	global $CRED_CHARS;
 
 	$passphrase='';
-	$numchars=strlen($PW_CHARS);
-	for ($i=0; $i<$CRED_CHARS; $i++)
+	$numchars=strlen($CRED_CHARS);
+	for ($i=0; $i<$CRED_LENGTH; $i++)
 	{
 		# add a separator every $CRED_SEPLEN chars
 		if ($i!=0 && $CRED_SEPLEN>0 && $i%$CRED_SEPLEN==0) $passphrase.='-';
 
 		# add random char
 		$r = mt_rand(0,$numchars-1);
-		$c = substr($PW_CHARS,$r,1);
+		$c = substr($CRED_CHARS,$r,1);
 		$passphrase.=$c;
 	}
 
@@ -41,11 +38,10 @@ function _get_passphrase()
 // calculate a reference code
 function _get_refcode()
 {
-	// number of chars in reference
-	$REFLEN=6;
+	global $CRED_REFLEN;
 
 	$refcode='';
-	for ($i=0; $i<$REFLEN; $i++)
+	for ($i=0; $i<$CRED_REFLEN; $i++)
 	{
 		$r = mt_rand(0,35);
 
@@ -62,11 +58,12 @@ function _get_refcode()
 
 function _db_open()
 {
-	$MYSQL_USER = 'cred';
-	$MYSQL_PASS = 'Ohdechae4d';
-	$MYSQL_DB   = 'credentials';
+	global $MYSQL_HOST;
+	global $MYSQL_USER;
+	global $MYSQL_PASS;
+	global $MYSQL_DB;
 
-	$db = new mysqli('localhost',$MYSQL_USER,$MYSQL_PASS,$MYSQL_DB);
+	$db = new mysqli($MYSQL_HOST,$MYSQL_USER,$MYSQL_PASS,$MYSQL_DB);
 	if (mysqli_connect_error())
 	{
 		_error("Failed to connect to MySQL: " . mysqli_connect_error());
