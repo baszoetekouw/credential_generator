@@ -126,12 +126,14 @@ function _db_fetch($db,$refcode)
 
 function _db_close($db)
 {
-	$db->close();
+	if ($db) $db->close();
 }
 
 
 function credential_generate($src_ip)
 {
+	$db=null;
+
 	try 
 	{
 		$db = _db_open();
