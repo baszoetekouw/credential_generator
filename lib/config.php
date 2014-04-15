@@ -17,8 +17,8 @@ $CRED_REFLEN = 6;
 
 // MySql credentials
 $MYSQL_HOST = 'localhost';
-$MYSQL_USER = 'cred';
-$MYSQL_PASS = 'Ohdechae4d';
+$MYSQL_USER = 'user';
+$MYSQL_PASS = 'gehe1m';
 $MYSQL_DB   = 'credentials';
 
 // expirations
