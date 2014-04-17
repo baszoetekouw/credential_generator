@@ -1,6 +1,6 @@
 <?php
 
-include("../lib/credentials.php");
+require_once( dirname(__FILE__) . "/../lib/credentials.php" );
 
 function cleanse_refcode($refcode)
 {

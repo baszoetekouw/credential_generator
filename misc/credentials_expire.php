@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require('../lib/credentials.php');
+require_once( dirname(__FILE__) . '/../lib/credentials.php' );
 
 $num = credential_expire();
 

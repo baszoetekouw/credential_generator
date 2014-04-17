@@ -1,6 +1,6 @@
 <?php
 
-require 'config.php';
+require_once( dirname(__FILE__) . '/config.php' );
 
 
 // all credential handling is done in this file

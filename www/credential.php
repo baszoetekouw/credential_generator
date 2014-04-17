@@ -1,6 +1,6 @@
 <?php
 
-include('../lib/credentials.php');
+include( dirname(__FILE__) . '/../lib/credentials.php' );
 
 // poor man's access control
 $referer  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
