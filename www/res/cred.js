@@ -1,5 +1,10 @@
 function fill_credentials(cred)
 {
+	// enable submit button
+	$("#cred_button").prop('disabled',false);
+	$("#text1").prop('hidden',false);
+	$("#text2").prop('hidden',true);
+
 	// check if credentials were generated
 	if (cred.error==true)
 	{
@@ -15,6 +20,11 @@ function fill_credentials(cred)
 
 function generate_cred()
 {
+	// disable submit
+	$("#cred_button").prop('disabled',true);
+	$("#text1").prop('hidden',true);
+	$("#text2").prop('hidden',false);
+
 	// fetch new credentials
 	$.getJSON("credential.php", fill_credentials);
 }
@@ -27,6 +37,10 @@ function on_ready()
 	// make cfedentials inputs read-only
 	$("#cred_passphrase").prop('readonly',true);
 	$("#cred_refcode"   ).prop('readonly',true);
+
+	// show correct button text
+	$("#text1").prop('hidden',false);
+	$("#text2").prop('hidden',true);
 }
 
 $(document).ready(on_ready);
