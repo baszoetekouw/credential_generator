@@ -21,6 +21,9 @@ $MYSQL_USER = 'user';
 $MYSQL_PASS = 'gehe1m';
 $MYSQL_DB   = 'credentials';
 
+// Timezone to use for displaying dates etc
+$TZ = 'Europe/Amsterdam';
+
 // expirations
 // credentials expire in two different ways:
 //  - a number of DAYS after they are generated

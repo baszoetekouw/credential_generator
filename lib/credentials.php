@@ -62,13 +62,20 @@ function _db_open()
 	global $MYSQL_USER;
 	global $MYSQL_PASS;
 	global $MYSQL_DB;
+	global $TZ;
 
 	$db = new mysqli($MYSQL_HOST,$MYSQL_USER,$MYSQL_PASS,$MYSQL_DB);
 	if (mysqli_connect_error())
 	{
 		_error("Failed to connect to MySQL: " . mysqli_connect_error());
 	}
-	
+
+	// set correct timezone
+	$now = new DateTime("now", new DateTimeZone($TZ));
+	$offset = $now->format("P"); // +01:00
+	$query = "SET time_zone = '$offset'";
+	$db->query($query);
+
 	return $db;
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+require_once( dirname(__FILE__) . "/../lib/config.php" );
 require_once( dirname(__FILE__) . "/../lib/credentials.php" );
 
 function cleanse_refcode($refcode)
@@ -29,9 +30,8 @@ if ( isset($_POST['refcode'] ) )
 		$date = $data['date'];
 		$ip   = $data['ip'];
 
-		# fix date (is stored as UTC in the db)
-		$ldate = new DateTime( $date, new DateTimeZone("UTC") );
-		$ldate->setTimezone( new DateTimeZone("Europe/Amsterdam") );
+		# fix date formatting
+		$ldate = new DateTime( $date, new DateTimeZone($TZ) );
 		$ldate = $ldate->format('Y-m-d H:i:s T');
 	}
 	else
