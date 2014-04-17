@@ -26,13 +26,14 @@ if ( isset($_POST['refcode'] ) )
 
 	if (!$data['error'])
 	{
-		$pass = $data['passphrase'];
+		$pass = htmlspecialchars($data['passphrase']);
+		$ip   = htmlspecialchars($data['ip']);
 		$date = $data['date'];
-		$ip   = $data['ip'];
 
 		# fix date formatting
 		$ldate = new DateTime( $date, new DateTimeZone($TZ) );
 		$ldate = $ldate->format('Y-m-d H:i:s T');
+		$ldate = htmlspecialchars($ldate);
 	}
 	else
 	{
