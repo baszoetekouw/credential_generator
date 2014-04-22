@@ -42,7 +42,7 @@ $ldate    = "&ndash;";
 $ip       = "&ndash;";
 $viewedby = "&ndash;";
 $lvdate   = "&ndash;";
-$user     = do_authz();
+$user     = htmlspecialchars(do_authz());
 
 if ( isset($_POST['refcode'] ) )
 {
