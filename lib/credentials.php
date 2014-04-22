@@ -241,7 +241,7 @@ function credential_fetch($refcode,$userid)
 		$data = _db_fetch($db,$refcode);
 		_db_markread($db,$refcode,$userid);
 
-		$data['error'] = isset($data['passphrase']) ? 0 : 1;
+		$data['error'] = isset($data['refcode']) ? 0 : 1;
 	}
 	catch (Exception $e)
 	{

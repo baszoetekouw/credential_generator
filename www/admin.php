@@ -51,11 +51,14 @@ if ( isset($_POST['refcode'] ) )
 
 	if (!$data['error'])
 	{
-		$pass     = htmlspecialchars($data['passphrase']);
 		$ip       = htmlspecialchars($data['ip']);
 		$date     = $data['date'];
 		$viewdate = $data['view_date'];
 
+		if ($data['passphrase'])
+			$pass = htmlspecialchars($data['passphrase']);
+		else
+			$pass = '[expired]';
 		if ($data['viewed_by']) 
 		{
 			$viewedby = htmlspecialchars($data['viewed_by']);
