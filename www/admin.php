@@ -60,9 +60,7 @@ if ( isset($_POST['refcode'] ) )
 		else
 			$pass = '[expired]';
 		if ($data['viewed_by']) 
-		{
 			$viewedby = htmlspecialchars($data['viewed_by']);
-		}
 
 		# fix date formatting
 		$ldate = new DateTime( $date, new DateTimeZone($TZ) );
