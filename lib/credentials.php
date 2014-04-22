@@ -99,7 +99,7 @@ function _db_store($db,$passphrase,$refcode,$ip)
 
 function _db_fetch($db,$refcode)
 {
-	$sql = 'SELECT refcode,passphrase,generation_date,generation_ip '
+	$sql = 'SELECT refcode,passphrase,generation_date,generation_ip,viewed_by,view_date '
 	      .'FROM credentials WHERE refcode=?';
 
 	$st = $db->prepare($sql);
@@ -113,7 +113,7 @@ function _db_fetch($db,$refcode)
 	if (!$result)
 		_error("Failed to execute SELECT query: " . $st->error);
 
-	$res = $st->bind_result($refcode,$pass,$date,$ip);
+	$res = $st->bind_result($refcode,$pass,$date,$ip,$viewedby,$viewdate);
 	if ($res===false)
 		_error("Failed to execute SELECT query: " . $st->error);
 
@@ -127,7 +127,9 @@ function _db_fetch($db,$refcode)
 		'passphrase' => $pass,
 		'refcode'    => $refcode,
 		'date'       => $date,
-		'ip'         => $ip
+		'ip'         => $ip,
+		'viewed_by'  => $viewedby,
+		'view_date'  => $viewdate
 	);
 }
 

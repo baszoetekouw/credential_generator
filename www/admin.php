@@ -14,10 +14,12 @@ function cleanse_refcode($refcode)
 }
 
 // default values
-$refcode = "&ndash;";
-$pass    = "&ndash;";
-$ldate   = "&ndash;";
-$ip      = "&ndash;";
+$refcode  = "&ndash;";
+$pass     = "&ndash;";
+$ldate    = "&ndash;";
+$ip       = "&ndash;";
+$viewedby = "&ndash;";
+$lvdate   = "&ndash;";
 
 if ( isset($_POST['refcode'] ) )
 {
@@ -26,14 +28,28 @@ if ( isset($_POST['refcode'] ) )
 
 	if (!$data['error'])
 	{
-		$pass = htmlspecialchars($data['passphrase']);
-		$ip   = htmlspecialchars($data['ip']);
-		$date = $data['date'];
+		$pass     = htmlspecialchars($data['passphrase']);
+		$ip       = htmlspecialchars($data['ip']);
+		$date     = $data['date'];
+		$viewdate = $data['view_date'];
+
+		if ($data['viewed_by']) 
+		{
+			$viewedby = htmlspecialchars($data['viewed_by']);
+		}
 
 		# fix date formatting
 		$ldate = new DateTime( $date, new DateTimeZone($TZ) );
 		$ldate = $ldate->format('Y-m-d H:i:s T');
 		$ldate = htmlspecialchars($ldate);
+
+		if ($viewdate) 
+		{
+			$lvdate = new DateTime( $viewdate, new DateTimeZone($TZ) );
+			$lvdate = $lvdate->format('Y-m-d H:i:s T');
+			$lvdate = htmlspecialchars($lvdate);
+		}
+
 	}
 	else
 	{
@@ -67,6 +83,8 @@ if ( isset($_POST['refcode'] ) )
 		<th>Passphrase</th>     <td id="cred_pass"><?php print $pass;    ?></td></tr>
 		<th>Generation date</th><td id="cred_date"><?php print $ldate;   ?></td></tr>
 		<th>Client IP</th>      <td id="cred_ip"  ><?php print $ip;      ?></td></tr>
+		<th>Viewed by</th>      <td id="cred_vb"  ><?php print $viewedby;?></td></tr>
+		<th>View date</th>      <td id="cred_vd"  ><?php print $lvdate;  ?></td></tr>
 		</table>
 	</div>
 		
