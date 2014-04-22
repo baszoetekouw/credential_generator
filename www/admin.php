@@ -3,6 +3,28 @@
 require_once( dirname(__FILE__) . "/../lib/config.php" );
 require_once( dirname(__FILE__) . "/../lib/credentials.php" );
 
+# autothorization
+function do_authz()
+{
+	# use simplesaml
+	require_once( dirname(__FILE__) . "/../../simplesamlphp/lib/_autoload.php");
+
+	# require login via management VO
+	$as = new SimpleSAML_Auth_Simple('vo-sp');
+	$as->requireAuth();
+
+	# make sure we have an eppn
+	$eppn = 'urn:mace:dir:attribute-def:eduPersonPrincipalName';
+	$attr = $as->getAttributes();
+	if ( !array_key_exists($eppn,$attr) || !isset($attr[$eppn])
+   		|| !is_array($attr[$eppn]) || count($attr[$eppn])<1 )
+	{
+		print "<pre>Error: no eduPersonPrincipleName received from IdP</pre>";
+		exit();
+	}
+	return $attr[$eppn][0];
+}
+
 function cleanse_refcode($refcode)
 {
 	// should be exactly 6 chars in set [0-9a-z]
@@ -20,11 +42,12 @@ $ldate    = "&ndash;";
 $ip       = "&ndash;";
 $viewedby = "&ndash;";
 $lvdate   = "&ndash;";
+$user     = do_authz();
 
 if ( isset($_POST['refcode'] ) )
 {
 	$refcode = cleanse_refcode($_POST['refcode']);
-	$data = credential_fetch($refcode);
+	$data = credential_fetch($refcode,$user);
 
 	if (!$data['error'])
 	{

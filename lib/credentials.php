@@ -230,11 +230,9 @@ function credential_generate($src_ip)
 	return $data;
 }
 
-// fetched a credential with specified refcode
-function credential_fetch($refcode)
+// fetch a credential with specified refcode
+function credential_fetch($refcode,$userid)
 {
-	// todo: get this from SimpleSAMLphp
-	$userid='unknown';
 	$db=null;
 
 	try
