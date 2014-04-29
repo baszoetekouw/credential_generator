@@ -16,6 +16,7 @@ function fill_credentials(cred)
 	// fill retrieved credentials into text fields
 	$("#cred_passphrase").val(cred.passphrase);
 	$("#cred_refcode"   ).val(cred.refcode);
+	$("#cred_expiry"    ).val(cred.expire);
 }
 
 function generate_cred()
@@ -37,6 +38,7 @@ function on_ready()
 	// make cfedentials inputs read-only
 	$("#cred_passphrase").prop('readonly',true);
 	$("#cred_refcode"   ).prop('readonly',true);
+	$("#cred_expiry"    ).prop('readonly',true);
 
 	// show correct button text
 	$("#text1").prop('hidden',false);

@@ -84,6 +84,11 @@ h2 {
 	width: 6em;
 }
 
+#cred_expiry {
+	font-family: monospace;
+	width: 20em;
+}
+
 #cred_button {
 	width: 15em;
 }

@@ -191,6 +191,7 @@ function _db_close($db)
 
 function credential_generate($src_ip)
 {
+	global $CRED_EXP_GENERATE;
 	$db=null;
 
 	try 
@@ -219,7 +220,17 @@ function credential_generate($src_ip)
 		}
 		while (!$result);
 
-		$data = array( 'error' => false, 'passphrase' => $pass, 'refcode' => $ref );
+
+		$exp = new DateTime("now");
+		$exp->add(new DateInterval("P{$CRED_EXP_GENERATE}D"));
+		$exp = $exp->format("Y-m-d H:i:s T");
+
+		$data = array( 
+			'error' => false, 
+			'passphrase' => $pass, 
+			'refcode' => $ref,
+			'expire' => $exp
+		);
 	}
 	catch (Exception $e)
 	{
