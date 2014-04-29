@@ -35,7 +35,7 @@ function on_ready()
 	// add click handler to credentials button
 	$("#cred_button").click(generate_cred);
 
-	// make cfedentials inputs read-only
+	// make credentials inputs read-only
 	$("#cred_passphrase").prop('readonly',true);
 	$("#cred_refcode"   ).prop('readonly',true);
 	$("#cred_expiry"    ).prop('readonly',true);
