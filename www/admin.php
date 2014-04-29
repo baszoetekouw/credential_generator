@@ -90,32 +90,40 @@ if ( isset($_POST['refcode'] ) )
 	<link rel="stylesheet" href="res/style.css"/>
 </head>
 
-<body id="home">
+<body class="home">
+<div class="wrapper">
 
 	<h1>SURFconext passphrase administration</h1>
 
 	<form method="post">
-	<div>
-		Enter reference code: <input type="text" name="refcode" id="cred_refcode"/>
-		<input type="submit" id="cred_button"/>
+	<div class="main">
+		<h2>Credential lookup</h2>
+		<p>
+			Enter reference code: <input type="text" name="refcode" id="cred_refcode"/>
+			<input type="submit" id="submit_button"/>
+		</p>
 	</div>
 	</form>
 
-	<div>
+	<div class="main">
+		<h2>Results</h2>
 		<table id="cred_results">
-		<tr><th>Refcode</th>    <td id="cred_ref" ><?php print $refcode; ?></td></tr>
-		<th>Passphrase</th>     <td id="cred_pass"><?php print $pass;    ?></td></tr>
-		<th>Generation date</th><td id="cred_date"><?php print $ldate;   ?></td></tr>
-		<th>Client IP</th>      <td id="cred_ip"  ><?php print $ip;      ?></td></tr>
-		<th>Viewed by</th>      <td id="cred_vb"  ><?php print $viewedby;?></td></tr>
-		<th>View date</th>      <td id="cred_vd"  ><?php print $lvdate;  ?></td></tr>
+		<tr><th>Refcode</th>        <td id="cred_ref" ><?php print $refcode; ?></td></tr>
+		<tr><th>Passphrase</th>     <td id="cred_pass"><?php print $pass;    ?></td></tr>
+		<tr><th>Generation date</th><td id="cred_date"><?php print $ldate;   ?></td></tr>
+		<tr><th>Client IP</th>      <td id="cred_ip"  ><?php print $ip;      ?></td></tr>
+		<tr><th>Viewed by</th>      <td id="cred_vb"  ><?php print $viewedby;?></td></tr>
+		<tr><th>View date</th>      <td id="cred_vd"  ><?php print $lvdate;  ?></td></tr>
 		</table>
 	</div>
 		
 
-	<div><address>
+	<div class="main">
+		<h2>More information</h2>
+		<address>
 		For more information, please contact <a
 			href="mailto:support@surfconext.nl">support@surfconext.nl</a>.
-	</address></div>
+		</address>
+	</div>
 </body>
 </html>

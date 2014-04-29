@@ -1,3 +1,78 @@
+@charset "UTF-8";
+/*
+ * Mostly copied from https://engine.surfconext.nl/css/wide/screen.css
+ *
+ * Copyright 2011 SURFnet bv, The Netherlands
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+* {
+	margin: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	color: #333;
+	font: 12px/17px Arial, Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	background: #e7e7e7;
+}
+
+div.wrapper {
+	margin: 0 auto;
+	width: 968px;
+}
+
+div.header {
+	background: url(https://engine.surfconext.nl/media/headerBck-wide.gif) no-repeat left bottom;
+	padding: 15px 0 34px 22px;
+	margin-bottom: 10px;
+}
+
+div.main {
+	background: url(https://engine.surfconext.nl/media/contentBck-wide.gif) no-repeat left top;
+	padding: 4px 14px 0px 14px;
+	position: relative; /*height: 472px;*/
+}
+
+div.main::after {
+	content: " "; /* not a normal space but U+00A0 */
+	background: url(https://engine.surfconext.nl/media/contentBtm-wide.gif) no-repeat left bottom;
+	display: block;
+	width: 941px;
+	margin-left: -14px;
+	padding-right: 30px;
+	margin-bottom: 1em;
+}
+
+
+h1 {
+	background: url(https://engine.surfconext.nl/media/headerBck-wide.gif) no-repeat left bottom;
+	padding: 15px 0 34px 22px;
+	margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 15px;
+    margin: 0 0 15px 0;
+    padding: 8px 0 0 0;
+    color: #fff;
+}
 
 #cred_passphrase {
 	font-family: monospace;
@@ -9,3 +84,15 @@
 	width: 6em;
 }
 
+#cred_button {
+	width: 15em;
+}
+
+#cred_results th {
+	text-align: left;
+}
+
+#cred_results td {
+	font-family: monospace;
+	padding-left: 1em;
+}
